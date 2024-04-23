@@ -40,13 +40,13 @@ void ExibirOpcoesDoMenu()
 			RegistrarBanda();
 			break;
 		case 2:
-			MostrarBandasRegistradas();
+			ExibirBandasRegistradas();
 			break;
 		case 3:
 			AvaliarBanda();
 			break;
 		case 4:
-			Console.WriteLine("Você escolheu a opção " + opcaoEscolhidaNumerica);
+			ExibirNotaMediaDaBanda();
 			break;
 		case -1:
 			Console.WriteLine("Até a próxima!");
@@ -72,7 +72,7 @@ void RegistrarBanda()
 	ExibirOpcoesDoMenu();
 }
 
-void MostrarBandasRegistradas()
+void ExibirBandasRegistradas()
 {
 	Console.Clear();
 	ExibirTituloDaOpcao("Exibindo todas as bandas registradas");
@@ -81,6 +81,9 @@ void MostrarBandasRegistradas()
 	{
 		Console.WriteLine($"Banda: {banda}");
 	}
+
+	if (registroDeBandas.Count <= 0)
+		Console.WriteLine("Não existem bandas registradas.");
 
 	Console.WriteLine("\nPrecione qualquer tecla para voltar ao menu principal");
 	Console.ReadKey();
@@ -101,7 +104,7 @@ void AvaliarBanda()
 		int nota = int.Parse(Console.ReadLine()!);
 		registroDeBandas[nomeDaBanda].Add(nota);
 		Console.WriteLine($"\nA nota {nota} para a banda {nomeDaBanda} foi registrada com sucesso.");
-		Thread.Sleep(10000);
+		Thread.Sleep(8000);
 		Console.Clear();
 		ExibirOpcoesDoMenu();
 	}
@@ -109,6 +112,31 @@ void AvaliarBanda()
 	{
 		Console.WriteLine($"\nA banda {nomeDaBanda} não foi encontrada.");
 		Console.WriteLine("\nPrecione qualquer tecla para voltar ao menu principal"); 
+		Console.ReadKey();
+		Console.Clear();
+		ExibirOpcoesDoMenu();
+	}
+}
+
+void ExibirNotaMediaDaBanda()
+{
+	Console.Clear();
+	ExibirTituloDaOpcao("Nota média da banda");
+	Console.Write("Digite o nome da banda que deseja: ");
+	string nomeDaBanda = Console.ReadLine()!;
+
+	if (registroDeBandas.ContainsKey(nomeDaBanda))
+	{
+		List<int> notas = registroDeBandas[nomeDaBanda];
+		Console.WriteLine($"\nA média da banda {nomeDaBanda} é {notas.Average()}.");
+		Thread.Sleep(8000);
+		Console.Clear();
+		ExibirOpcoesDoMenu();
+	}
+	else
+	{
+		Console.WriteLine($"\nA banda {nomeDaBanda} não foi encontrada.");
+		Console.WriteLine("\nPrecione qualquer tecla para voltar ao menu principal");
 		Console.ReadKey();
 		Console.Clear();
 		ExibirOpcoesDoMenu();
